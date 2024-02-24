@@ -15,12 +15,13 @@ from diffusers.models.attention_processor import (
     AttnAddedKVProcessor,
     AttnProcessor,
 )
+from diffusers.embeddings import GLIGENTextBoundingboxProjection
+
 from diffusers.models.embeddings import (
     GaussianFourierProjection,
     ImageHintTimeEmbedding,
     ImageProjection,
     ImageTimeEmbedding,
-    PositionNet,
     TextImageProjection,
     TextImageTimeEmbedding,
     TextTimeEmbedding,
@@ -662,7 +663,7 @@ class UNet2DConditionModel(ModelMixin, ConfigMixin, UNet2DConditionLoadersMixin)
                 positive_len = cross_attention_dim[0]
 
             feature_type = "text-only" if attention_type == "gated" else "text-image"
-            self.position_net = PositionNet(
+            self.position_net = GLIGENTextBoundingboxProjection(
                 positive_len=positive_len,
                 out_dim=cross_attention_dim,
                 feature_type=feature_type,
@@ -1133,7 +1134,7 @@ class UNet2DConditionModel(ModelMixin, ConfigMixin, UNet2DConditionLoadersMixin)
 
         # 2. pre-process
         sample = self.conv_in(sample)
-
+        
         # 2.5 GLIGEN position net
         if (
             cross_attention_kwargs is not None
