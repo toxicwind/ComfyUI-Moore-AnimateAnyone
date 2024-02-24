@@ -15,9 +15,9 @@ from diffusers.models.attention_processor import (
     AttnAddedKVProcessor,
     AttnProcessor,
 )
-from diffusers.embeddings import GLIGENTextBoundingboxProjection
 
 from diffusers.models.embeddings import (
+    GLIGENTextBoundingboxProjection,
     GaussianFourierProjection,
     ImageHintTimeEmbedding,
     ImageProjection,
